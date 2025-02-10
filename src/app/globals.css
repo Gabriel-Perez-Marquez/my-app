@@ -1,7 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/*@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); 
+*/  
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -17,5 +18,65 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppind', sans-serif;
+  background-color: rgb(255, 246, 232);
+
+}
+
+.container{
+  width: 50%;
+  margin: 0 auto;
+}
+
+.title{
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #3d4255;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.primary-button{
+  background-color: #3d4255;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.tasks{
+  align-items: center;
+  margin-top: 90px;
+  margin: 0 auto;
+  background-color: #c5c5c5;
+  padding: 20px;
+  border-radius: 18px;
+}
+
+.task{
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-radius: 18px;
+  background-color: #f5f5f5;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  gap: 15px;
+  font-size: 1.7em;
+  
+}
+
+.task input{
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.task input:checked + label {
+  text-decoration: line-through;
+  color: #a0a0a0;
 }
