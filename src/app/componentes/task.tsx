@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
-interface TaskProps {
+export interface TaskProps {
     id: number;
     children: string;
     completed: boolean;
@@ -10,11 +10,15 @@ interface TaskProps {
 }
 
 export default function Task(props: TaskProps) {
+    const[done, setDone] = useState(true);
+    const changeDone = () => setDone(!done);
     return (
         <div className="task">
             <div className="task-title">
                 <h2>{props.children}</h2>
+                <button></button>
             </div>
         </div>
     );
 }
+

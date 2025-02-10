@@ -6,6 +6,10 @@ interface PopUpProps {
 }
 
 
-export default function PopUp(props: PopUpProps) {
-    <div></div>
+export default function PopUp({isVisible, form}: PopUpProps) {
+    return (
+        <div className={isVisible ? "visible" : "hidden"}>
+            {form}
+        </div>
+    );
 }

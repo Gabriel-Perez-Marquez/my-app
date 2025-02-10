@@ -70,13 +70,4 @@ body {
   
 }
 
-.task input{
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
 
-.task input:checked + label {
-  text-decoration: line-through;
-  color: #a0a0a0;
-}
