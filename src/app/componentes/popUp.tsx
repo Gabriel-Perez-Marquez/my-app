@@ -6,7 +6,7 @@ interface PopUpProps {
 }
 
 
-export default function PopUp({isVisible, form}: PopUpProps) {
+export default function PopUp({ isVisible, form }: PopUpProps) {
     return (
         <div className={isVisible ? "visible" : "hidden"}>
             {form}

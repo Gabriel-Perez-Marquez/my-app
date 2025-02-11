@@ -10,7 +10,7 @@ export interface TaskProps {
 }
 
 export default function Task(props: TaskProps) {
-    const[done, setDone] = useState(true);
+    const [done, setDone] = useState(true);
     const changeDone = () => setDone(!done);
     return (
         <div className="task">
