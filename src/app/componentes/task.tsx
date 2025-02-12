@@ -5,8 +5,6 @@ export interface TaskProps {
     children: string;
     completed: boolean;
     userId: number;
-
-
 }
 
 export default function Task(props: TaskProps) {

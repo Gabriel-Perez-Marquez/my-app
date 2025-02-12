@@ -5,7 +5,6 @@ interface PopUpProps {
     form: React.ReactNode;
 }
 
-
 export default function PopUp({ isVisible, form }: PopUpProps) {
     return (
         <div className={isVisible ? "visible" : "hidden"}>

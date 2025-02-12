@@ -23,7 +23,7 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: "Poppins", sans-serif;
-  background-color: rgb(255, 246, 232);
+  background-color: #F9DEC9;
 }
 
 .container {
@@ -40,7 +40,7 @@ body {
 }
 
 .primary-button {
-  background-color: #3d4255;
+  background-color: #3A405A;
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
@@ -62,7 +62,7 @@ body {
   align-items: center;
   margin-top: 90px;
   margin: 0 auto;
-  background-color: #c5c5c5;
+  background-color: #AEC5EB;
   padding: 20px;
   border-radius: 18px;
 }
@@ -82,9 +82,73 @@ body {
   overflow: auto;
 }
 
-.form {
+
+
+form{
+  width: 20%;
+  margin-left: 40%;
+}
+
+form label{
+  color: white;
+  font-weight: 700;
+}
+
+form input{
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #3d4255;
+  background-color: grey;
+}
+
+form #completed{
+  width: 100px;
+  height: 30px;
+}
+
+form button{
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: #3A405A;
+  color: white;
+  cursor: pointer;
+}
+
+
+svg {
+  cursor: pointer;
+}
+
+.secondary-button {
+  background-color: #3852b8;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 2px;
+}
+
+.visible {
+  position: fixed;
+  top: 30%;
+  left: 35%;
+  width: 35%;
+  height: fit-content;
+  background-color: #685044;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 50px;
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 12px;
 }
+
+.hidden {
+  display: none;
+}
+
+
+
