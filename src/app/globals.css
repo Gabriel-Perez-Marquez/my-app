@@ -130,6 +130,7 @@ svg {
   border-radius: 8px;
   cursor: pointer;
   margin: 2px;
+  font-size: 20px;
 }
 
 .visible {
@@ -150,5 +151,9 @@ svg {
   display: none;
 }
 
-
+.task.completed {
+  background-color: #d4edda;
+  color: #155724;
+  text-decoration: line-through;
+}
 
