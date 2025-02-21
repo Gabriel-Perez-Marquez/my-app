@@ -47,7 +47,7 @@ export default function List(props: ListProps) {
             }).map(listItem => (
                 <ListItemComp
                     key={listItem.id}
-                    name={listItem.children}
+                    name={listItem.todo}
                     completed={listItem.completed}
                     onDelete={() => props.deleteTask(listItem.id)}
                     onEdit={() => handleEdit(listItem.id)}

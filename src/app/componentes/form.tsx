@@ -1,69 +1,83 @@
 'use client';
 import React, { useState } from 'react';
 import { TaskProps } from './task';
+import { v4 as uuidv4 } from "uuid";
 
 interface FormProps {
-    save: (task: TaskProps) => void;
-    setIsVisible: (visible: boolean) => void;
+  save: (task: TaskProps) => void;
+  setIsVisible: (visible: boolean) => void;
 }
 
 export default function Form(props: FormProps) {
-    const [task, setTask] = useState('');
-    const [description, setDescription] = useState('');
-    const [completed, setCompleted] = useState(false);
-    const [userId, setUserId] = useState(1); 
+  const [task, setTask] = useState('');
+  const [completed, setCompleted] = useState(false);
+  const [userId, setUserId] = useState(1);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Evitar el envío del formulario
+  const handleSubmit = async () => {
 
-        // Guardar la tarea
-        props.save({
-            id: Math.random(),
-            children: task,
-            completed: completed,
-            userId: userId
-        });
+    console.log('Enviando tarea:', { task, completed, userId });
 
-        // Limpiar el formulario
-        setTask('');
-        setDescription('');
-        setCompleted(false);
+    try {
+      const response = await fetch('/api/todos/createTodo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: uuidv4(),
+          todo: task,
+          completed: completed,
+          userId: userId,
+        }),
+      });
 
-        // Ocultar el PopUp
-        props.setIsVisible(false);
-    };
+      console.log('Respuesta del servidor:', response);
 
-    return (
-        <div className='form'>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="task">Task</label>
-                <input
-                    type="text"
-                    id="task"
-                    name="task"
-                    value={task}
-                    onChange={(e) => setTask(e.target.value)}
-                    required
-                />
-                <label htmlFor="completed">Completed</label>
-                <input
-                    type="checkbox"
-                    id="completed"
-                    name="completed"
-                    checked={completed}
-                    onChange={(e) => setCompleted(e.target.checked)}
-                />
-                <label htmlFor="userId">User ID</label>
-                <input
-                    type="number"
-                    id="userId"
-                    name="userId"
-                    value={userId}
-                    onChange={(e) => setUserId(Number(e.target.value))}
-                    required
-                />
-                <button type="submit">Add Task</button>
-            </form>
-        </div>
-    );
+      console.log(response.ok);
+
+      if (!response.ok) {
+        throw new Error('Error al crear la tarea');
+      }
+
+      const newTask = await response.json();
+      console.log('Tarea creada:', newTask);
+
+      // Guardar la tarea en el estado
+      props.save(newTask);
+
+      // Limpiar el formulario
+      setTask('');
+      setCompleted(false);
+
+      // Ocultar el PopUp
+      props.setIsVisible(false);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  return (
+    <div className='form'>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor='task'>Task</label>
+        <input
+          type='text'
+          id='task'
+          name='task'
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          required
+        />
+        <label>
+          <input
+            type='checkbox'
+            checked={completed}
+            onChange={(e) => setCompleted(e.target.checked)}
+          />
+          Completed
+        </label>
+        <button type='submit'>Add Task</button>
+      </form>
+    </div>
+  );
 }

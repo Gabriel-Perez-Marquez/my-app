@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PrimaryButton from "./componentes/primary-button";
 import { TaskProps } from "./componentes/task";
 import ListItem from "./componentes/listItem";
@@ -10,12 +10,34 @@ export default function Home() {
   const [list, setList] = useState<TaskProps[]>([]);
   const [isVisible, setIsVisible] = useState(false);
 
+  const getTasks = async () => {
+    try {
+      const res = await fetch('/api/todos');
+      const data = await res.json();
+      setList(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getTasks();
+  }, []);
+
   const addTask = (task: TaskProps) => {
     setList([...list, task]);
   };
 
   const deleteTask = (id: number) => {
     setList(list.filter(task => task.id !== id));
+    fetch(`/api/todos/deleteTodo`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id }),
+      
+    });
   };
 
   const editTask = (id: number, updatedTask: TaskProps) => {
