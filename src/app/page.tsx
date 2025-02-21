@@ -42,6 +42,8 @@ export default function Home() {
 
   const editTask = (id: number, updatedTask: TaskProps) => {
     setList(list.map(task => (task.id === id ? updatedTask : task)));
+    
+
   };
 
   return (

@@ -9,13 +9,45 @@ interface EditPopUpProps {
 }
 
 export default function EditPopUp({ isVisible, task, updateTask, setIsVisible }: EditPopUpProps) {
-    const [taskName, setTaskName] = useState(task ? task.children : "");
+    const [taskName, setTaskName] = useState(task ? task.todo : "");
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Evitar el envío del formulario
+
         if (task) {
-            updateTask(task.id, { ...task, children: taskName });
-            setIsVisible(false);
+            try {
+                const response = await fetch(`/api/todos/editTodo`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: task.id,
+                        todo: taskName,
+                        completed: task.completed,
+                        userId: task.userId,
+                    }),
+                });
+
+                console.log('Respuesta del servidor:', response);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Error en la respuesta del servidor:', errorText);
+                    throw new Error(`Error al editar la tarea: ${errorText}`);
+                }
+
+                const updatedTask = await response.json();
+                console.log('Tarea editada:', updatedTask);
+
+                // Actualizar la tarea en el estado
+                updateTask(task.id, updatedTask);
+
+                // Ocultar el PopUp
+                setIsVisible(false);
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
     };
 
