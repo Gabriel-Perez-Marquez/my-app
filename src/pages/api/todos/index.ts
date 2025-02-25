@@ -13,8 +13,24 @@ const getTodos = async (
   res: NextApiResponse<Task[] | { message: string }>
 ) => {
   try {
-    const q = "SELECT * FROM tasks";
-    const result = await pool.query(q);
+    req.query.done;
+    //undefined query
+    //done === true query con where
+    //done === false query con where
+    let q = "SELECT * FROM tasks";
+    let queryParam = [];
+    if (req.query.done === "true") {
+      q = q + ` WHERE completed = 'true'`;
+      if(req.query.search){
+        q = q + ` AND todo LIKE '%$1%'`;
+        queryParam.push(req.query.search);
+      }
+    }
+    if(req.query.done === "false"){
+      q = q + ` WHERE completed = 'false'`;
+    }
+    
+    const result = await pool.query(q, queryParam);
     const todos = result.rows;
     return res.json(todos);
   } catch (err: unknown) {
@@ -24,15 +40,15 @@ const getTodos = async (
 
 const createTodo = async (
   req: NextApiRequest,
-  res: NextApiResponse<Task[] | { message: string }>
-) => {
-  const {id, children, completed, userId } = req.body;
-  console.log('Datos recibidos para crear tarea:', { id, children, completed, userId });
+  res: NextApiResponse<Task | { message: string }>
+): Promise<void> => {
+  const {id, todo, completed, userId } = req.body;
+  console.log('Datos recibidos para crear tarea:', { id, todo, completed, userId });
   try {
-    const q = "INSERT INTO tasks (id, children, completed, userId) VALUES ($1, $2, $3, $4)";
-    const values = [id, children, completed, userId];
-    await pool.query(q, values);
-    return res.status(201).json({message:"Task created successfully"});
+    const q = "INSERT INTO tasks (id, todo, completed, userId) VALUES ($1, $2, $3, $4)";
+    const values = [id, todo, completed, userId];
+    const resul= await pool.query(q, values);
+    return res.status(201).json(resul.rows[0]);
   } catch (err: unknown) {
     res.status(500).json({ message: err as string });
   }
@@ -40,7 +56,7 @@ const createTodo = async (
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Task[] | { message: string }>
+  res: NextApiResponse
 ) {
   if (req.method === 'GET') {
     return await getTodos(req, res);

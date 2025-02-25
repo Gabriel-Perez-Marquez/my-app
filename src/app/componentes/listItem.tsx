@@ -4,6 +4,7 @@ import PrimaryButton from "./primary-button";
 import { TaskProps } from './task';
 import SecondaryButton from './Secondary-button';
 import EditPopUp from './editPopUp';
+import { pool } from '../db/pool';
 
 enum Filter {
     All,
@@ -30,11 +31,29 @@ export default function List(props: ListProps) {
         }
     };
 
-    const toggleComplete = (id: number) => {
+    const toggleComplete = async (id: number) => {
         const task = props.list.find(task => task.id === id);
         if (task) {
             props.editTask(id, { ...task, completed: !task.completed });
         }
+        const response = await fetch(`/api/todos/completeTodo`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                todo: task?.todo,
+                completed: task?.completed,
+                userId: task?.userId,
+            }),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error en la respuesta del servidor:', errorText);
+            throw new Error(`Error al editar la tarea: ${errorText}`);
+        }
+
     };
 
     return (

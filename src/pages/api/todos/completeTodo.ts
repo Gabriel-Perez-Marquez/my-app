@@ -1,23 +1,24 @@
 import { pool } from "@/app/db/pool";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 
 interface Task {
-  id: string;
-  todo: string;
-  completed: boolean;
-  userId: number;
-}
+    id: string;
+    todo: string;
+    completed: boolean;
+    userId: number;
+  }
 
-const editTodo = async (
+
+const completeTodo = async (
   req: NextApiRequest,
   res: NextApiResponse<Task | { message: string }>
-) => {
-  const { id, todo} = req.body;
-  console.log('Datos recibidos para editar tarea:', { id, todo});
+)=> {
+  const {id, completed} = req.body;
   try {
-    const q = "UPDATE tasks SET todo = $2 WHERE id = $1 RETURNING *";
-    const values = [id, todo ];
-    const result = await pool.query(q, values);
+    console.log(id, !completed);
+    const q = "UPDATE tasks SET completed = $2 WHERE id = $1 RETURNING ";
+    const values = [id, !completed];
+    const result= await pool.query(q, values);
     console.log('Resultado de la actualización:', result.rows[0]);
     return res.status(200).json(result.rows[0]);
   } catch (err: unknown) {
@@ -26,14 +27,12 @@ const editTodo = async (
   }
 };
 
-
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Task | { message: string }>
 ) {
   if (req.method === 'PUT') {
-    return await editTodo(req, res);
+    return await completeTodo(req, res);
   } else {
     res.setHeader('Allow', ['PUT']);
     res.status(405).end(`Method ${req.method} Not Allowed`);

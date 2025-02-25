@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 
 export interface TaskProps {
     id: number;
@@ -8,8 +7,6 @@ export interface TaskProps {
 }
 
 export default function Task(props: TaskProps) {
-    const [done, setDone] = useState(true);
-    const changeDone = () => setDone(!done);
     return (
         <div className="task">
             <div className="task-title">
