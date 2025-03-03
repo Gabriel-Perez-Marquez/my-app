@@ -1,4 +1,4 @@
-import { pool } from "@/app/db/pool";
+import { getClient } from "@/app/db/pool";
 import { NextApiRequest, NextApiResponse } from "next";
 
 interface Task {
@@ -6,24 +6,24 @@ interface Task {
     todo: string;
     completed: boolean;
     userId: number;
-  }
-
+}
 
 const completeTodo = async (
   req: NextApiRequest,
   res: NextApiResponse<Task | { message: string }>
-)=> {
-  const {id, completed} = req.body;
+) => {
+  const client = getClient();
+  const { id, completed } = req.body;
   try {
-    console.log(id, !completed);
-    const q = "UPDATE tasks SET completed = $2 WHERE id = $1 RETURNING ";
+    const q = "UPDATE tasks SET completed = $2 WHERE id = $1 RETURNING *";
     const values = [id, !completed];
-    const result= await pool.query(q, values);
-    console.log('Resultado de la actualización:', result.rows[0]);
+    const result = await client.query(q, values);
+    if (result.rows.length === 0) {
+      throw new Error('Task not found');
+    }
     return res.status(200).json(result.rows[0]);
   } catch (err: unknown) {
-    console.error('Error al editar tarea:', err);
-    res.status(500).json({ message: err as string });
+    res.status(500).json({ message: (err as Error).message });
   }
 };
 

@@ -42,9 +42,14 @@ body {
 .primary-button {
   background-color: #3A405A;
   color: white;
-  padding: 10px 20px;
+  height: 15vh;
   border-radius: 8px;
   cursor: pointer;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .buttons {
@@ -82,8 +87,6 @@ body {
   overflow: auto;
 }
 
-
-
 form{
   width: 20%;
   margin-left: 40%;
@@ -118,13 +121,12 @@ form button{
   cursor: pointer;
 }
 
-
 svg {
   cursor: pointer;
 }
 
 .secondary-button {
-  background-color: #3852b8;
+  background-color: #1d2c68;
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
@@ -157,3 +159,18 @@ svg {
   text-decoration: line-through;
 }
 
+button{
+  background-color: #3852b8;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 2px;
+  font-size: 20px;
+}
+
+button:hover{
+  background-color: #5474f3;
+  transform: scale(1.02);
+  transition: 0.2s ease;
+}

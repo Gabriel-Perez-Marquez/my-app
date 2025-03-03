@@ -22,6 +22,7 @@ export default function EditPopUp({ isVisible, task, updateTask, setIsVisible }:
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
+                        id: task.id,
                         todo: taskName,
                         completed: task.completed,
                         userId: task.userId,

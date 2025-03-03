@@ -1,4 +1,4 @@
-import { pool } from "@/app/db/pool";
+import { getClient } from "@/app/db/pool";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 interface Task {
@@ -12,12 +12,13 @@ const editTodo = async (
   req: NextApiRequest,
   res: NextApiResponse<Task | { message: string }>
 ) => {
+  const client = getClient();
   const { id, todo} = req.body;
   console.log('Datos recibidos para editar tarea:', { id, todo});
   try {
     const q = "UPDATE tasks SET todo = $2 WHERE id = $1 RETURNING *";
     const values = [id, todo ];
-    const result = await pool.query(q, values);
+    const result = await client.query(q, values);
     console.log('Resultado de la actualización:', result.rows[0]);
     return res.status(200).json(result.rows[0]);
   } catch (err: unknown) {

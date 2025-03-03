@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface PrimaryButtonProps {
-  children: string;
+  children: React.ReactNode;
   handleClick: () => void;
 }
 
