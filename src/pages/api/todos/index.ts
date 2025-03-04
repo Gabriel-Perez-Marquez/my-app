@@ -15,8 +15,8 @@ export const getTodos = async (
 ) => {
   try {
     const client= getClient();
-    console.log('Client:', client);
-    const result = await client.query("SELECT * FROM tasks");
+    console.log('Client:', client);  
+    const result = await client.query('SELECT * FROM tasks');
     console.log('Result:', result);
     const todos: Task[] = result.rows;
     return res.json(todos);
