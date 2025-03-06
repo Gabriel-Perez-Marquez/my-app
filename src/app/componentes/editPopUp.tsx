@@ -16,7 +16,7 @@ export default function EditPopUp({ isVisible, task, updateTask, setIsVisible }:
 
         if (task) {
             try {
-                const response = await fetch(`/api/todos/editTodo`, {
+                const response = await fetch(`/api/todos/${task.id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',

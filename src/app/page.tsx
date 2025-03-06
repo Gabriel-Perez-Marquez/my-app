@@ -36,7 +36,7 @@ export default function Home() {
 
   const deleteTask = (id: number) => {
     setList(list.filter(task => task.id !== id));
-    fetch(`/api/todos/deleteTodo`, {
+    fetch(`/api/todos/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

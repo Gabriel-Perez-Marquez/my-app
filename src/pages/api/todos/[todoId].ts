@@ -37,12 +37,32 @@ const editTodo = async (
   }
 };
 
+
+const completeTodo = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  const client = getClient();
+  client.connect();
+  const { id, completed } = req.body;
+  try {
+    const q = "UPDATE tasks SET completed = $2 WHERE id = $1 RETURNING *";
+    const values = [id, !completed];
+    const result = await client.query(q, values);
+    return res.status(200).json(result.rows[0]);
+  } catch (err: unknown) {
+    res.status(500).json({ message: "Error al editar la tarea" });
+  }
+};
+
+
 export default async function TodoIdhandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === 'PUT') {
     await editTodo(req, res);
+    await completeTodo(req,res);
   } else if (req.method === 'DELETE') {
     await deleteTodo(req, res);
   } else {

@@ -34,7 +34,7 @@ export default function List(props: ListProps) {
         if (task) {
             props.editTask(id, { ...task, completed: !task.completed });
         }
-        const response = await fetch(`/api/todos/completeTodo`, {
+        const response = await fetch(`/api/todos/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
