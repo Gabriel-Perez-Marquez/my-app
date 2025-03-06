@@ -77,7 +77,7 @@ describe('create a todo', () => {
       } as any;
       queryMock.mockResolvedValueOnce({ rows: rowsMock})
       await createTodo(req, res);
-      expect(queryMock).toHaveBeenCalledWith("INSERT INTO tasks (id, todo, completed, userId) VALUES ($1, $2, $3, $4) RETURNING *", ['1', 'Test Task', false, 1])
+      expect(queryMock).toHaveBeenCalledWith("INSERT INTO tasks (id, todo, completed, userId) VALUES ($1, $2, $3, $4)", ['1', 'Test Task', false, 1])
       expect(statusMock).toHaveBeenCalledWith(201);
   });
 
@@ -95,7 +95,7 @@ describe('create a todo', () => {
       } as any;
       queryMock.mockRejectedValueOnce(new Error("Error en la base de datos"))
       await createTodo(req, res);
-      expect(queryMock).toHaveBeenCalledWith("INSERT INTO tasks (id, todo, completed, userId) VALUES ($1, $2, $3, $4) RETURNING *", ['1', 'Test Task', false, 1])
+      expect(queryMock).toHaveBeenCalledWith("INSERT INTO tasks (id, todo, completed, userId) VALUES ($1, $2, $3, $4)", ['1', 'Test Task', false, 1])
       expect(statusMock).toHaveBeenCalledWith(500);
   })
 });

@@ -18,10 +18,11 @@ export default function Form(props: FormProps) {
     console.log('Enviando tarea:', { task, completed, userId });
 
     try {
-      const response = await fetch('/api/todos/createTodo', {
+      const response = await fetch('/api/todos/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
         },
         body: JSON.stringify({
           id: uuidv4(),
@@ -32,8 +33,8 @@ export default function Form(props: FormProps) {
       });
 
       console.log('Respuesta del servidor:', response);
-
-      console.log(response.ok);
+      console.log('Estado de la respuesta:', response.status);
+      console.log('Texto de la respuesta:', await response.text());
 
       if (!response.ok) {
         throw new Error('Error al crear la tarea');

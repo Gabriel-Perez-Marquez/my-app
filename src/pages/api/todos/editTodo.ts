@@ -24,20 +24,9 @@ const editTodo = async (
     return res.status(200).json(result.rows[0]);
   } catch (err: unknown) {
     console.error('Error al editar tarea:', err);
-    res.status(500).json({ message: err as string });
+    res.status(500).json({ message: "Error al editar la tarea"});
   }
 };
 
 
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Task | { message: string }>
-) {
-  if (req.method === 'PUT') {
-    return await editTodo(req, res);
-  } else {
-    res.setHeader('Allow', ['PUT']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
-}
+export default editTodo;

@@ -28,17 +28,17 @@ export const createTodo = async (
   req: NextApiRequest,
   res: NextApiResponse<Task | { message: string }>
 ): Promise<void> => {
-  const client =  getClient();
+  const client = getClient();
+  client.connect();
+  const {id, todo, completed, userId } = req.body;
+  console.log('Datos recibidos para crear tarea:', { id, todo, completed, userId });
   try {
-    const { id, todo, completed, userId } = req.body;
-    const q = "INSERT INTO tasks (id, todo, completed, userId) VALUES ($1, $2, $3, $4) RETURNING *";
+    const q = "INSERT INTO tasks (id, todo, completed, userId) VALUES ($1, $2, $3, $4)";
     const values = [id, todo, completed, userId];
-    const result = await client.query(q, values);
-    res.status(201).json(result.rows[0]);
+    const resul= await client.query(q, values);
+    return res.status(201).json(resul.rows[0]);
   } catch (err: unknown) {
-    res.status(500).json({ message: 'Error al crear la tarea' });
-  } finally {
-    client.end(); // Libera la conexión de vuelta al pool
+    res.status(500).json({message: 'Error al crear la tarea'});
   }
 };
 
