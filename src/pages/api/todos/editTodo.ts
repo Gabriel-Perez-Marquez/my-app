@@ -13,6 +13,7 @@ const editTodo = async (
   res: NextApiResponse<Task | { message: string }>
 ) => {
   const client = getClient();
+  client.connect();
   const { id, todo} = req.body;
   console.log('Datos recibidos para editar tarea:', { id, todo});
   try {

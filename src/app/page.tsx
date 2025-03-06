@@ -11,17 +11,20 @@ export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
 
   const getTasks = async () => {
-    try {
-      const res = await fetch('/api/todos/index', {
-        method: 'GET',
-      });
-      const data = await res.json();
-      setList(data);
-      console.log('Data:', data);
-    } catch (error) {
-      console.error(error);
+  try {
+    const res = await fetch('/api/todos', {
+      method: 'GET',
+    });
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
     }
+    const data = await res.json();
+    setList(data);
+    console.log('Data:', data);
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
   }
+}
 
   useEffect(() => {
     getTasks();

@@ -13,6 +13,7 @@ const completeTodo = async (
   res: NextApiResponse<Task | { message: string }>
 ) => {
   const client = getClient();
+  client.connect();
   const { id, completed } = req.body;
   try {
     const q = "UPDATE tasks SET completed = $2 WHERE id = $1 RETURNING *";

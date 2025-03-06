@@ -24,7 +24,8 @@ jest.mock('../../../app/db/pool', () => ({
   getClient: () => {
     return {
       query: queryMock,
-      end: jest.fn()
+      end: jest.fn(),
+      connect: jest.fn()
     };
   }
 }));

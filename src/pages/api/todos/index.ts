@@ -13,13 +13,14 @@ export const getTodos = async (
   res: NextApiResponse
 ) => {
   const client = getClient();
+  client.connect();
   try {
     const result = await client.query('SELECT * FROM tasks');
     res.status(200).json(result.rows);
   } catch (err: unknown) {
     res.status(500).json({ message: 'Error al obtener las tareas' });
   } finally {
-    client.end();
+    client.end(); // Libera la conexión de vuelta al pool
   }
 };
 
@@ -27,7 +28,7 @@ export const createTodo = async (
   req: NextApiRequest,
   res: NextApiResponse<Task | { message: string }>
 ): Promise<void> => {
-  const client = getClient();
+  const client =  getClient();
   try {
     const { id, todo, completed, userId } = req.body;
     const q = "INSERT INTO tasks (id, todo, completed, userId) VALUES ($1, $2, $3, $4) RETURNING *";
@@ -37,7 +38,7 @@ export const createTodo = async (
   } catch (err: unknown) {
     res.status(500).json({ message: 'Error al crear la tarea' });
   } finally {
-    client.end();
+    client.end(); // Libera la conexión de vuelta al pool
   }
 };
 

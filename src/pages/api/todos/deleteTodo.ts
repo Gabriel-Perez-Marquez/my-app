@@ -10,6 +10,7 @@ const deleteTodo = async (
   res: NextApiResponse
 ): Promise<void> => {
   const client = getClient();
+  client.connect();
   const {id} = req.body;
   console.log('Datos recibidos para eliminar tarea:', { id});
   try {

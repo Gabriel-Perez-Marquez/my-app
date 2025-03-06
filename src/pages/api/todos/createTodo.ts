@@ -15,6 +15,7 @@ const createTodo = async (
   res: NextApiResponse<Task | { message: string }>
 ): Promise<void> => {
   const client = getClient();
+  client.connect();
   const {id, todo, completed, userId } = req.body;
   console.log('Datos recibidos para crear tarea:', { id, todo, completed, userId });
   try {

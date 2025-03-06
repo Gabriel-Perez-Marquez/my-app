@@ -16,14 +16,15 @@ const rowsMock: todoProps[]= [];
 const queryMock = jest.fn();
 const jsonMock = jest.fn();
 const statusMock = jest.fn((status) => ({
-    json: jsonMock
+    json: jsonMock,
 }));
 
 
 jest.mock('../../../app/db/pool', () => ({
     getClient: () => {
         return {
-            query: queryMock
+            query: queryMock,
+            connect: jest.fn()
         }
     }
 }))
@@ -42,7 +43,7 @@ describe('create a todo', () => {
             }
         } as any;
         const res: NextApiResponse = {
-            status: statusMock
+            status: statusMock,
         } as any;
         queryMock.mockResolvedValueOnce({ rows: rowsMock})
         await createTodo(req, res);
