@@ -2,9 +2,6 @@ import { getClient } from "../../../app/db/pool";
 import { NextApiRequest, NextApiResponse } from "next";
 
 
-
-
-
 const deleteTodo = async (
   req: NextApiRequest,
   res: NextApiResponse
@@ -17,9 +14,9 @@ const deleteTodo = async (
     const q = "DELETE FROM tasks WHERE id = $1;";
     const values = [id];
     await client.query(q, values);
-    return res.status(201).json({message:"Task created successfully"});
+    return res.status(200).json({message:"Task deleted successfully"});
   } catch (err: unknown) {
-    res.status(500).json({ message: err as string });
+    res.status(500).json({ message: "Error deleting the task"});
   }
 };
 

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import createTodo from "../../../../src/pages/api/todos/createTodo";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getClient } from "@/app/db/pool";
+
 
 
 interface todoProps {
@@ -15,7 +15,7 @@ interface todoProps {
 const rowsMock: todoProps[]= [];
 const queryMock = jest.fn();
 const jsonMock = jest.fn();
-const statusMock = jest.fn((status) => ({
+const statusMock = jest.fn(() => ({
     json: jsonMock,
 }));
 
