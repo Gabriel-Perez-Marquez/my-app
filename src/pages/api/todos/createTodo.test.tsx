@@ -33,7 +33,7 @@ jest.mock('../../../app/db/pool', () => ({
 
 
 describe('create a todo', () => {
-    it("http 200", async () => {
+    it("http 201", async () => {
         const req: NextApiRequest = {
             body: {
                 id: "1",
