@@ -65,13 +65,13 @@ export default function List(props: ListProps) {
             }).map(listItem => (
                 <Task
                     key={listItem.id}
+                    id={listItem.id} 
                     todo={listItem.todo}
                     completed={listItem.completed}
+                    userId={listItem.userId}
                     onDelete={() => props.deleteTask(listItem.id)}
                     onEdit={() => handleEdit(listItem.id)}
-                    toggleComplete={() => toggleComplete(listItem.id)} 
-                    id={listItem.id} 
-                    userId={listItem.userId}/>
+                    toggleComplete={() => toggleComplete(listItem.id)}/>
             ))}
             <EditPopUp
                 isVisible={isEditVisible}

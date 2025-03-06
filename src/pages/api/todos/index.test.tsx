@@ -7,9 +7,6 @@ interface Todo {
     todo: string;
     completed: boolean;
     userId: number;
-    onDelete: () => void;
-    onEdit: () => void;
-    toggleComplete: () => void;
 }
 
 const rowsMock: Todo[] = [];
@@ -22,21 +19,19 @@ const statusMock = jest.fn((status) => ({
 jest.mock('../../../app/db/pool', () => ({
   getClient: () => {
     return {
-      query: queryMock
+      query: queryMock,
+      end: jest.fn()
     };
   }
 }));
 
 describe("get todos", () => {
-
   it("http 200", async () => {
     const request: NextApiRequest = {} as any;
     const response: NextApiResponse = {
       status: statusMock,
     } as any;
-    queryMock.mockImplementation(() => Promise.resolve({
-      rows: rowsMock
-    }));
+    queryMock.mockResolvedValueOnce({ rows: rowsMock });
     await getTodos(request, response);
     expect(queryMock).toHaveBeenCalledWith("SELECT * FROM tasks");
     expect(statusMock).toHaveBeenCalledWith(200);
@@ -48,12 +43,10 @@ describe("get todos", () => {
     const response: NextApiResponse = {
       status: statusMock,
     } as any;
-    queryMock.mockImplementation(() => {
-      throw new Error("Something");
-    });
+    queryMock.mockRejectedValueOnce(new Error("Error en la base de datos"));
     await getTodos(request, response);
     expect(queryMock).toHaveBeenCalledWith("SELECT * FROM tasks");
     expect(statusMock).toHaveBeenCalledWith(500);
-    expect(jsonMock).toHaveBeenCalledWith({"message": "Error al obtener las tareas"});
+    expect(jsonMock).toHaveBeenCalledWith({ message: "Error al obtener las tareas"});
   });
 });

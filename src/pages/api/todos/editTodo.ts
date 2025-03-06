@@ -1,4 +1,4 @@
-import { getClient } from "@/app/db/pool";
+import { getClient } from "../../../app/db/pool";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 interface Task {

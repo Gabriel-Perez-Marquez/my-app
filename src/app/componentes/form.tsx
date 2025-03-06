@@ -79,5 +79,5 @@ export default function Form(props: FormProps) {
         <button type='submit'>Add Task</button>
       </form>
     </div>
-  );
+  );  
 }

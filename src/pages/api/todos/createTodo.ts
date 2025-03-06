@@ -1,4 +1,4 @@
-import { getClient } from "@/app/db/pool";
+import { getClient } from "../../../app/db/pool";
 import { NextApiRequest, NextApiResponse } from "next";
 
 
@@ -23,7 +23,7 @@ const createTodo = async (
     const resul= await client.query(q, values);
     return res.status(201).json(resul.rows[0]);
   } catch (err: unknown) {
-    res.status(500).json({ message: err as string });
+    res.status(500).json({message: 'Error al crear la tarea'});
   }
 };
 

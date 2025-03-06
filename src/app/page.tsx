@@ -6,16 +6,18 @@ import ListItem from "./componentes/listItem";
 import Form from "./componentes/form";
 import PopUp from "./componentes/popUp";
 
-
 export default function Home() {
   const [list, setList] = useState<TaskProps[]>([]);
   const [isVisible, setIsVisible] = useState(false);
 
   const getTasks = async () => {
     try {
-      const res = await fetch('/api/todos');
+      const res = await fetch('/api/todos/index', {
+        method: 'GET',
+      });
       const data = await res.json();
       setList(data);
+      console.log('Data:', data);
     } catch (error) {
       console.error(error);
     }
@@ -23,7 +25,7 @@ export default function Home() {
 
   useEffect(() => {
     getTasks();
-  }, []);
+  }, []); // array de dependencias está vacío para que se ejecute solo una vez
 
   const addTask = (task: TaskProps) => {
     setList([...list, task]);
