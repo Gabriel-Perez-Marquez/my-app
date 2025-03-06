@@ -23,7 +23,7 @@ export const getTodos = async (
   }
 };
 
-const createTodo = async (
+export const createTodo = async (
   req: NextApiRequest,
   res: NextApiResponse<Task | { message: string }>
 ): Promise<void> => {
